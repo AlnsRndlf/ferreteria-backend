@@ -48,11 +48,11 @@ public class BoletaService {
 
   // Si algo falla a la mitad, @Transactional deshace todo (no queda stock descontado a medias)
   @Transactional
-  public BoletaResponse crear(BoletaRequest datos) {
+  public BoletaResponse crear(BoletaRequest datos, String correo, String nombre) {
     Boleta boleta = new Boleta();
     boleta.setNumero("ORDER-" + System.currentTimeMillis());
-    boleta.setClienteCorreo(datos.clienteCorreo());
-    boleta.setClienteNombre(datos.clienteNombre());
+    boleta.setClienteCorreo(correo);
+    boleta.setClienteNombre(nombre);
     boleta.setFecha(LocalDateTime.now());
     boleta.setTipoEntrega(datos.tipoEntrega());
     boleta.setEstado("PENDIENTE");
