@@ -5,6 +5,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -34,6 +35,12 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(HttpMessageNotReadableException.class)
   ResponseEntity<Map<String, String>> jsonMalo(HttpMessageNotReadableException e) {
     return ResponseEntity.badRequest().body(Map.of("error", "El cuerpo de la petición no es un JSON válido"));
+  }
+
+  // Ej: un cliente intenta ver la boleta de otro cliente
+  @ExceptionHandler(AccessDeniedException.class)
+  ResponseEntity<Map<String, String>> accesoDenegado(AccessDeniedException e) {
+    return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", e.getMessage()));
   }
 
   // Ej: borrar un producto que ya aparece en una boleta
