@@ -41,6 +41,13 @@ public class BoletaService {
   }
 
   @Transactional(readOnly = true)
+  public BoletaResponse buscarPorNumero(String numero) {
+    Boleta boleta = boletas.findByNumero(numero)
+        .orElseThrow(() -> new RecursoNoEncontradoException("Boleta no encontrada: " + numero));
+    return aRespuesta(boleta);
+  }
+
+  @Transactional(readOnly = true)
   public List<BoletaResponse> listarPorCliente(String correo) {
     return boletas.findByClienteCorreoIgnoreCaseOrderByFechaDesc(correo)
         .stream().map(this::aRespuesta).toList();
