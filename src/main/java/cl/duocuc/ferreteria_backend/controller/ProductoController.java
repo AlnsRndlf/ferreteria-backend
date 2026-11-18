@@ -34,6 +34,12 @@ public class ProductoController {
     return service.stockCritico();
   }
 
+  @Operation(summary = "Buscar un producto por su código (ej: MC001)")
+  @GetMapping("/codigo/{codigo}")
+  public Producto buscarPorCodigo(@PathVariable String codigo) {
+    return service.buscarPorCodigo(codigo);
+  }
+
   @Operation(summary = "Buscar un producto por id")
   @GetMapping("/{id}")
   public Producto buscar(@PathVariable Long id) {
