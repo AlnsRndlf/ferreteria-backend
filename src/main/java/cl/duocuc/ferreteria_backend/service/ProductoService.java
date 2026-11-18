@@ -30,6 +30,11 @@ public class ProductoService {
         .orElseThrow(() -> new RecursoNoEncontradoException("Producto no encontrado: " + id));
   }
 
+  public Producto buscarPorCodigo(String codigo) {
+    return productos.findByCodigo(codigo)
+        .orElseThrow(() -> new RecursoNoEncontradoException("Producto no encontrado: " + codigo));
+  }
+
   public List<Producto> stockCritico() {
     return productos.findStockCritico();
   }
