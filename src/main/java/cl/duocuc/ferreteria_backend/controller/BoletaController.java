@@ -44,11 +44,25 @@ public class BoletaController {
   public BoletaResponse buscar(@PathVariable Long id,
       @Parameter(hidden = true) @AuthenticationPrincipal UsuarioAutenticado usuario) {
     BoletaResponse boleta = service.buscar(id);
+    verificarAcceso(boleta, usuario);
+    return boleta;
+  }
+
+  @Operation(summary = "Buscar una boleta por su número (ej: ORDER-1731600000000)")
+  @GetMapping("/numero/{numero}")
+  public BoletaResponse buscarPorNumero(@PathVariable String numero,
+      @Parameter(hidden = true) @AuthenticationPrincipal UsuarioAutenticado usuario) {
+    BoletaResponse boleta = service.buscarPorNumero(numero);
+    verificarAcceso(boleta, usuario);
+    return boleta;
+  }
+
+  // Un CLIENTE solo puede ver sus propias boletas
+  private void verificarAcceso(BoletaResponse boleta, UsuarioAutenticado usuario) {
     boolean esCliente = "CLIENTE".equals(usuario.rol());
     if (esCliente && !boleta.clienteCorreo().equalsIgnoreCase(usuario.correo())) {
       throw new AccessDeniedException("No puedes ver boletas de otro cliente");
     }
-    return boleta;
   }
 
   @Operation(summary = "Crear una boleta a nombre del usuario del token (valida y descuenta el stock)")
