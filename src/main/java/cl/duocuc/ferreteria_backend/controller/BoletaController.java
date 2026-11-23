@@ -33,6 +33,12 @@ public class BoletaController {
     return service.listar();
   }
 
+  @Operation(summary = "Listar las boletas de un cliente por su correo (solo ADMIN)")
+  @GetMapping("/por-cliente")
+  public List<BoletaResponse> porCliente(@RequestParam String correo) {
+    return service.listarPorCliente(correo);
+  }
+
   @Operation(summary = "Listar MIS boletas (las del usuario del token)")
   @GetMapping("/mias")
   public List<BoletaResponse> mias(@Parameter(hidden = true) @AuthenticationPrincipal UsuarioAutenticado usuario) {
