@@ -37,6 +37,7 @@ public class SecurityConfig {
             // Boletas
             .requestMatchers(HttpMethod.POST, "/api/v1/boletas").hasAnyRole("ADMIN", "CLIENTE")
             .requestMatchers(HttpMethod.GET, "/api/v1/boletas").hasAnyRole("ADMIN", "VENDEDOR")
+            .requestMatchers(HttpMethod.GET, "/api/v1/boletas/por-cliente").hasRole("ADMIN")
             .requestMatchers(HttpMethod.GET, "/api/v1/boletas/mias").authenticated()
             .requestMatchers(HttpMethod.GET, "/api/v1/boletas/numero/*").authenticated()
             .requestMatchers(HttpMethod.GET, "/api/v1/boletas/*").authenticated()
