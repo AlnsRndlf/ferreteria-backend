@@ -2,6 +2,7 @@ package cl.duocuc.ferreteria_backend.config;
 
 import cl.duocuc.ferreteria_backend.security.JwtAuthenticationFilter;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -53,9 +54,10 @@ public class SecurityConfig {
   }
 
   @Bean
-  CorsConfigurationSource corsConfigurationSource() {
+  CorsConfigurationSource corsConfigurationSource(
+      @Value("${app.cors.allowed-origin:http://localhost:5173}") String origenPermitido) {
     CorsConfiguration c = new CorsConfiguration();
-    c.setAllowedOrigins(List.of("http://localhost:5173"));
+    c.setAllowedOrigins(List.of(origenPermitido));
     c.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     c.setAllowedHeaders(List.of("Content-Type", "Authorization"));
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
